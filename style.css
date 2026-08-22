@@ -1,0 +1,92 @@
+/* Tampilan default untuk Laptop/Desktop (5 Kolom) */
+.profile-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+/* Tampilan untuk Tablet (Layar Sedang - 3 Kolom) */
+@media screen and (max-width: 1024px) {
+    .profile-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tampilan untuk Handphone (Layar Kecil - 2 Kolom) */
+@media screen and (max-width: 600px) {
+    .profile-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px; /* Memperkecil jarak antar kartu */
+    }
+}
+
+
+.student-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px; /* Sedikit dikurangi agar proporsional */
+    
+    /* UBAH: Hapus width & min-width 250px lama, ganti jadi auto / 100% */
+    width: 100%;
+    min-width: 0; /* Mengizinkan kartu mengecil secara fleksibel di dalam grid */
+    
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+    transform: translateY(-10px); /* Kartu sedikit terangkat naik */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Bayangan menebal */
+}
+
+.student-card img {
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+.isi {
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+}
+
+p {
+    font-size: 14px; /* Sedikit dikurangi agar teks nama tidak patah berantakan */
+    color: #333333;
+    margin: 5px 0;
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.title {
+    text-align: center;
+    font-size: 40px;
+    color: #333333;
+    margin-bottom: 30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-bottom: 15px solid #000000;
+}
+
+/* Tambahkan ini di dalam kode CSS Anda */
+.search-profile input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 20px; /* Membuat sudut input lebih melingkar rapi */
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-profile input[type="text"]:focus {
+    border-color: #333333; /* Warna bingkai berubah saat diklik */
+}
