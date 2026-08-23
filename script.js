@@ -60,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Munculkan panel pop-up
             modal.style.display = 'flex';
+
+            // Tambahkan baris ini : Kunci scrolling saat pop-up aktif
+            document.body.classList.add('no-scroll');
         });
     });
 
@@ -67,6 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function closeModal() {
         // Tambahkan class closing untuk memicu animasi CSS keluar (popdownAnim)
         modal.classList.add('closing'); 
+
+        // Tambahkan baris ini : Buka kembali scrolling saat pop-up ditutup
+        document.body.classList.remove('no-scroll');
         
         // Beri jeda 300 milidetik agar animasi CSS selesai berputar terlebih dahulu
         setTimeout(function() {

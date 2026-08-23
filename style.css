@@ -214,13 +214,6 @@ p {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
-
-/* --- Bagian kode animasi lama --- */
-@keyframes popupAnim {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
 /* --- TAMBAHKAN KODE BARU DI BAWAH INI --- */
 
 /* Class khusus untuk memicu animasi menutup */
@@ -287,4 +280,8 @@ p {
         margin: 20% auto;  /* Menurunkan sedikit posisi kotak di HP */
         padding: 20px;     /* Memperkecil padding dalam agar konten lebih luas */
     }
+}
+
+body.no-scroll {
+    overflow: hidden; /* Mencegah scroll saat pop-up aktif */
 }
