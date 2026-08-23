@@ -18,11 +18,13 @@
     </p>
     
     <div class="profile-container">
-        <div class="student-card">
+        <!-- Contoh pada kartu Adha -->
+        <div class="student-card" data-nisn="12345678" data-hobby="Coding" data-bio="Software Engineer">
             <div class="isi">
                 <h2>Student Profile</h2>
-                <img class="profile-img" src="Profile Photo/photo unavailable.png" alt="Profile Picture" width="150">
-                <p class="student-name"><strong>Adha</strong></p>
+                <img class="profile-img" src="Profile Photo/photo unavailable.png" alt="Profile Picture">
+                <p class="student-name">Adha</p>
+                <p>Class: X TKJ 1</p> <!-- Pastikan ada info kelas di sini -->
             </div>
         </div>
         <div class="student-card">
@@ -337,5 +339,23 @@
     <div class="footer">
         <p class="copyright">Copyright &copy; SCUDERIA X TKJ 1 -- 2026 -- Student Profiles. All rights reserved.</p>
     </div>
+
+    <!-- PANEL MODAL DETAIL SISWA -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-body">
+                <img id="modal-img" src="" alt="Foto Siswa">
+                <h2 id="modal-name">Nama Siswa</h2>
+                <div class="modal-info">
+                    <p><strong>Kelas:</strong> <span id="modal-class"></span></p>
+                    <p><strong>NISN:</strong> <span id="modal-nisn"></span></p>
+                    <p><strong>Hobi:</strong> <span id="modal-hobby"></span></p>
+                    <p><strong>Cita-cita:</strong> <span id="modal-bio"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

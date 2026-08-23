@@ -1,14 +1,13 @@
 /* Tampilan default untuk Laptop/Desktop (5 Kolom) */
-/* Tampilan default untuk Laptop/Desktop (5 Kolom) */
 .profile-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    justify-items: center; /* TAMBAHKAN INI: Agar kartu otomatis ke tengah */
+    gap: 20px; /* Sedikit diperlebar agar seimbang */
+    justify-items: center; 
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
-
 
 /* Tampilan untuk Tablet (Layar Sedang - 3 Kolom) */
 @media screen and (max-width: 1024px) {
@@ -21,126 +20,271 @@
 @media screen and (max-width: 600px) {
     .profile-container {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px; /* Memperkecil jarak antar kartu */
+        gap: 15px; 
     }
 }
 
+/* STRUKTUR UTAMA: Efek tema gelap luar angkasa/teknologi */
 html, body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #0e7994, #01a79e, #590094);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* Background gradasi gelap teknologi */
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    color: #ffffff;
+    min-height: 100vh;
 }
 
-
+/* KARTU SISWA: Diubah dari merah bulat menjadi kartu semi-transparan berbingkai neon */
 .student-card {
-    background-color: #e60101;
-    border: 3px solid #000000;
-    border-radius: 60px;
-    padding: 15px; /* Sedikit dikurangi agar proporsional */
-    
-    /* UBAH: Hapus width & min-width 250px lama, ganti jadi auto / 100% */
-    width: 90%;
-    min-width: 0; /* Mengizinkan kartu mengecil secara fleksibel di dalam grid */
-    
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.student-card:hover {
-    transform: translateY(-10px); /* Kartu sedikit terangkat naik */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Bayangan menebal */
-    cursor: pointer; /* Menunjukkan bahwa kartu bisa diklik */
-}
-
-.student-card img {
+    background-color: rgba(30, 41, 59, 0.7); /* Slate dark semi-transparan */
+    border: 2px solid #00f0ff; /* Bingkai tipis warna Neon Cyan */
+    border-radius: 16px; /* Sudut kotak modern khas teknologi */
+    padding: 20px; 
     width: 100%;
-    max-width: 140px;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    max-width: 220px;
+    min-width: 0; 
+    text-align: center;
+    box-sizing: border-box;
+    -webkit-backdrop-filter: blur(5px); 
+    backdrop-filter: blur(5px); /* Efek kaca buram di belakang kartu */
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1); /* Efek pendaran cahaya redup */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* EFEK HOVER: Kartu menyala terang saat disentuh kursor */
+.student-card:hover {
+    transform: translateY(-10px) scale(1.03); 
+    border-color: #0072ff; /* Warna bingkai berubah ke biru elektrik */
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6); /* Efek komputer menyala */
+    cursor: pointer; 
+}
+
+/* FOTO SISWA: Ditambahkan bingkai lingkaran siber */
+.student-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Foto dibuat lingkaran sempurna */
+    border: 3px solid #00f0ff;
+    margin-bottom: 15px;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
 
 .isi {
-    font-size: 20px;
-    color: #000000;
     text-align: center;
 }
 
 .isi h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #ffffff;
-    text-align: center;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00f0ff; /* Teks heading warna cyan teknologi */
+    margin-bottom: 5px;
+    font-family: 'Orbitron', sans-serif, Arial;
 }
 
+/* Mengatur teks paragraf info di dalam kartu */
 p {
-    font-size: 14px; /* Sedikit dikurangi agar teks nama tidak patah berantakan */
-    color: #333333;
+    font-size: 13px; 
+    color: #94a3b8; /* Warna abu-abu terang agar teks terbaca jelas */
     margin: 5px 0;
-    font-family: Arial, sans-serif;
-    text-align: left;
+    text-align: center;
 }
 
+/* NAMA SISWA: Dibuat tegas di tengah */
 .student-name {
-    font-size: 20px; /* Ukuran font sedikit lebih besar untuk nama */
+    font-size: 18px; 
     font-weight: bold;
     color: #ffffff;
-    margin: 5px 0;
-    text-align: center; /* Nama siswa di tengah */
-    letter-spacing: 5px; /* Memberikan jarak antar huruf agar lebih rapi */
+    margin: 8px 0;
+    text-align: center; 
+    letter-spacing: 1px; 
 }
 
+/* JUDUL UTAMA WEBSITE */
 .title {
     text-align: center;
-    font-size: 40px;
+    font-size: 26px;
     color: #ffffff;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    border-bottom: 15px solid #000000;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); /* Teks efek menyala */
+    margin-bottom: 30px;
+    margin-top: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
 }
 
+/* WRAPPER INPUT PENCARIAN */
 .search-profile {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     margin-top: 20px;
 }
 
-/* Tambahkan ini di dalam kode CSS Anda */
+/* INPUT KOTAK PENCARIAN: Diubah menjadi hitam transparan dengan fokus menyala */
 .search-profile input[type="text"] {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 20px; /* Membuat sudut input lebih melingkar rapi */
+    width: 320px;
+    padding: 12px 20px;
+    font-size: 15px;
+    background-color: rgba(15, 23, 42, 0.6);
+    color: #ffffff;
+    border: 2px solid #334155;
+    border-radius: 30px; 
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
 }
 
+/* Efek saat mengetik di kolom pencarian */
 .search-profile input[type="text"]:focus {
-    border-color: #333333; /* Warna bingkai berubah saat diklik */
+    border-color: #00f0ff; 
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
 }
 
-/* Aturan desain untuk teks "Siswa tidak ditemukan" */
+/* TEKS PERINGATAN: Diubah menjadi merah neon agar kontras */
 #no-match {
     text-align: center;
-    color: #000000;
-    display: none;       /* Tetap menyembunyikan teks di awal */
+    color: #ff3333; /* Warna merah peringatan */
+    text-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
+    display: none;       
     font-size: 16px;
     margin-top: 20px;
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
+/* FOOTER COPYRIGHT */
 .copyright {
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
+    color: #00f0ff; /* Warna neon cyan agar terlihat futuristik */
+    margin-top: 40px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* BACKGROUND REDUP DI BELAKANG POP-UP */
+/* BACKGROUND REDUP DI BELAKANG POP-UP */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 6, 23, 0.8);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px); 
+    
+    /* TAMBAHKAN 3 BARIS INI: Mengaktifkan flexbox untuk mengetengahkan pop-up secara vertikal */
+    display: none; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* KOTAK UTAMA POP-UP */
+.modal-content {
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    
+    /* UBAH MARGIN: Diubah dari 10% auto menjadi 0 agar tidak terdorong ke bawah layar */
+    margin: 0 auto; 
+    
+    padding: 25px; /* Sedikit dikurangi agar hemat ruang */
+    width: 85%;    /* Sedikit dikurangi lebar kanan-kirinya di HP */
+    max-width: 420px;
+    border-radius: 20px;
+    position: relative;
+    text-align: center;
     color: #ffffff;
-    margin-top: 20px;
+    animation: popupAnim 0.3s ease-out;
+
+    /* UBAH TINGGI MAKSIMAL & SCROLL: */
+    max-height: 85vh;   /* Batasi tinggi kotak maksimal 85% dari tinggi layar HP */
+    overflow-y: auto;   /* Memaksa scroll aktif jika teks terlalu panjang */
+    box-sizing: border-box;
+}
+
+
+
+@keyframes popupAnim {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* --- Bagian kode animasi lama --- */
+@keyframes popupAnim {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* --- TAMBAHKAN KODE BARU DI BAWAH INI --- */
+
+/* Class khusus untuk memicu animasi menutup */
+.modal.closing .modal-content {
+    animation: popdownAnim 0.3s ease-in forwards;
+}
+
+@keyframes popdownAnim {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.8); opacity: 0; }
+}
+
+
+/* TOMBOL CLOSE (X) */
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #94a3b8;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #ff3333;
+}
+
+/* KONTEN DI DALAM POP-UP */
+#modal-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #00f0ff;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+#modal-name {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.modal-info p {
+    text-align: left;
+    font-size: 15px;
+    color: #cbd5e1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+    margin: 10px 0;
+}
+
+.modal-info strong {
+    color: #00f0ff;
+}
+
+/* Letakkan kode ini di bagian bawah file style.css Anda */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        margin: 20% auto;  /* Menurunkan sedikit posisi kotak di HP */
+        padding: 20px;     /* Memperkecil padding dalam agar konten lebih luas */
+    }
 }
