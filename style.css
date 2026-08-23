@@ -94,8 +94,9 @@ p {
 /* Aturan desain untuk teks "Siswa tidak ditemukan" */
 #no-match {
     text-align: center;
-    color: #888;
+    color: #000000;
     display: none;       /* Tetap menyembunyikan teks di awal */
     font-size: 16px;
     margin-top: 20px;
+    font-weight: bold;
 }
