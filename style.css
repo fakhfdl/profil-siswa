@@ -1,9 +1,14 @@
 /* Tampilan default untuk Laptop/Desktop (5 Kolom) */
+/* Tampilan default untuk Laptop/Desktop (5 Kolom) */
 .profile-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
+    justify-items: center; /* TAMBAHKAN INI: Agar kartu otomatis ke tengah */
+    align-items: center;
+    justify-content: center;
 }
+
 
 /* Tampilan untuk Tablet (Layar Sedang - 3 Kolom) */
 @media screen and (max-width: 1024px) {
@@ -20,15 +25,22 @@
     }
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #0e7994, #01a79e, #590094);
+}
+
 
 .student-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background-color: #e60101;
+    border: 3px solid #000000;
+    border-radius: 60px;
     padding: 15px; /* Sedikit dikurangi agar proporsional */
     
     /* UBAH: Hapus width & min-width 250px lama, ganti jadi auto / 100% */
-    width: 100%;
+    width: 90%;
     min-width: 0; /* Mengizinkan kartu mengecil secara fleksibel di dalam grid */
     
     text-align: center;
@@ -42,6 +54,7 @@
 .student-card:hover {
     transform: translateY(-10px); /* Kartu sedikit terangkat naik */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Bayangan menebal */
+    cursor: pointer; /* Menunjukkan bahwa kartu bisa diklik */
 }
 
 .student-card img {
@@ -59,6 +72,14 @@
     text-align: center;
 }
 
+.isi h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
 p {
     font-size: 14px; /* Sedikit dikurangi agar teks nama tidak patah berantakan */
     color: #333333;
@@ -67,13 +88,29 @@ p {
     text-align: left;
 }
 
+.student-name {
+    font-size: 20px; /* Ukuran font sedikit lebih besar untuk nama */
+    font-weight: bold;
+    color: #ffffff;
+    margin: 5px 0;
+    text-align: center; /* Nama siswa di tengah */
+    letter-spacing: 5px; /* Memberikan jarak antar huruf agar lebih rapi */
+}
+
 .title {
     text-align: center;
     font-size: 40px;
-    color: #333333;
-    margin-bottom: 30px;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     border-bottom: 15px solid #000000;
+}
+
+.search-profile {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
 }
 
 /* Tambahkan ini di dalam kode CSS Anda */
@@ -99,4 +136,11 @@ p {
     font-size: 16px;
     margin-top: 20px;
     font-weight: bold;
+}
+
+.copyright {
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    margin-top: 20px;
 }
