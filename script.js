@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalHobby = document.getElementById('modal-hobby');
     const modalBio = document.getElementById('modal-bio');
 
+    // Variabel pembantu untuk mencatat posisi gulir halaman luar
+    let scrollPosition = 0;
+
     // 1. LOGIKA PENCARIAN SISWA
     if (searchInput) {
         searchInput.addEventListener('input', function() {
@@ -36,21 +39,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. LOGIKA KLIK KARTU UNTUK DETAIL PROFIL
     studentCards.forEach(function(card) {
         card.addEventListener('click', function() {
-            // Ambil data dasar dari kartu html
             const name = card.querySelector('.student-name').textContent;
             const imgSrc = card.querySelector('.profile-img').getAttribute('src');
             
-            // Ambil data tambahan dari atribut data-*
             const nisn = card.getAttribute('data-nisn') || '-';
             const hobby = card.getAttribute('data-hobby') || '-';
             const bio = card.getAttribute('data-bio') || '-';
             
-            // Coba ambil teks kelas secara otomatis
             const cardText = card.innerText;
             const classMatch = cardText.match(/Class:\s*(.*)/i);
             const className = classMatch ? classMatch[1] : 'X TKJ 1';
 
-            // Masukkan data ke dalam panel pop-up modal
             modalImg.src = imgSrc;
             modalName.textContent = name;
             modalClass.textContent = className;
@@ -58,35 +57,39 @@ document.addEventListener("DOMContentLoaded", function () {
             modalHobby.textContent = hobby;
             modalBio.textContent = bio;
 
-            // Munculkan panel pop-up
-            modal.style.display = 'flex';
+            // Catat posisi koordinat scroll layar sebelum modal muncul
+            scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-            // Tambahkan baris ini : Kunci scrolling saat pop-up aktif
+            // Aktifkan pengunci posisi tubuh lewat class CSS
             document.body.classList.add('no-scroll');
+            // Tahan posisi koordinat agar halaman belakang tidak melompat ke atas
+            document.body.style.top = `-${scrollPosition}px`;
+
+            modal.style.display = 'flex';
         });
     });
 
     // 3. LOGIKA MENUTUP MODAL DENGAN JEDA ANIMASI
     function closeModal() {
-        // Tambahkan class closing untuk memicu animasi CSS keluar (popdownAnim)
         modal.classList.add('closing'); 
 
-        // Tambahkan baris ini : Buka kembali scrolling saat pop-up ditutup
+        // Lepas pengunci posisi tubuh
         document.body.classList.remove('no-scroll');
+        document.body.style.top = '';
         
-        // Beri jeda 300 milidetik agar animasi CSS selesai berputar terlebih dahulu
+        // Kembalikan posisi koordinat scroll layar ke letak semula sebelum diklik
+        window.scrollTo(0, scrollPosition);
+        
         setTimeout(function() {
             modal.style.display = 'none';
-            modal.classList.remove('closing'); // Bersihkan class agar modal bisa dibuka kembali
+            modal.classList.remove('closing'); 
         }, 300);
     }
 
-    // Tombol (X) diklik -> jalankan animasi tutup
     if (closeBtn) {
         closeBtn.addEventListener('click', closeModal);
     }
 
-    // Area luar kotak hitam diklik -> jalankan animasi tutup
     window.addEventListener('click', function(e) {
         if (e.target === modal) {
             closeModal();

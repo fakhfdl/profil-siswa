@@ -282,6 +282,12 @@ p {
     }
 }
 
+/* GANTI KODE body.no-scroll LAMA DENGAN INI */
 body.no-scroll {
-    overflow: hidden; /* Mencegah scroll saat pop-up aktif */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Mencegah efek bounce elastis khas Safari iOS */
+    overscroll-behavior: none; 
 }
