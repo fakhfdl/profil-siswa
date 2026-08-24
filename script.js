@@ -1,6 +1,9 @@
-// Cek apakah user sudah melewati halaman login.html
+// ==========================================
+// 1. SISTEM PROTEKSI & REDIRECT KE LOGIN
+// ==========================================
+// Cek apakah siswa sudah sukses melewati halaman login.html
 if (sessionStorage.getItem("isLoggedIn") !== "true") {
-    // Jika belum login, langsung alihkan ke halaman login
+    // Jika belum login, paksa browser langsung mengarah ke login.html
     window.location.href = "login.html"; 
 }
 
@@ -19,10 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalHobby = document.getElementById('modal-hobby');
     const modalBio = document.getElementById('modal-bio');
 
-    // Variabel pembantu untuk mencatat posisi gulir halaman luar
     let scrollPosition = 0;
 
-    // 1. LOGIKA PENCARIAN SISWA
+    // 2. LOGIKA PENCARIAN SISWA
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 2. LOGIKA KLIK KARTU UNTUK DETAIL PROFIL
+    // 3. LOGIKA KLIK KARTU UNTUK DETAIL PROFIL
     studentCards.forEach(function(card) {
         card.addEventListener('click', function() {
             const name = card.querySelector('.student-name').textContent;
@@ -63,27 +65,22 @@ document.addEventListener("DOMContentLoaded", function () {
             modalHobby.textContent = hobby;
             modalBio.textContent = bio;
 
-            // Catat posisi koordinat scroll layar sebelum modal muncul
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-            // Aktifkan pengunci posisi tubuh lewat class CSS
             document.body.classList.add('no-scroll');
-            // Tahan posisi koordinat agar halaman belakang tidak melompat ke atas
             document.body.style.top = `-${scrollPosition}px`;
 
             modal.style.display = 'flex';
         });
     });
 
-    // 3. LOGIKA MENUTUP MODAL DENGAN JEDA ANIMASI
+    // 4. LOGIKA MENUTUP MODAL DENGAN JEDA ANIMASI
     function closeModal() {
         modal.classList.add('closing'); 
 
-        // Lepas pengunci posisi tubuh
         document.body.classList.remove('no-scroll');
         document.body.style.top = '';
         
-        // Kembalikan posisi koordinat scroll layar ke letak semula sebelum diklik
         window.scrollTo(0, scrollPosition);
         
         setTimeout(function() {
