@@ -1,3 +1,9 @@
+// Cek apakah user sudah melewati halaman login.html
+if (sessionStorage.getItem("isLoggedIn") !== "true") {
+    // Jika belum login, langsung alihkan ke halaman login
+    window.location.href = "login.html"; 
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector('.search-profile input');
     const studentCards = document.querySelectorAll('.student-card');
