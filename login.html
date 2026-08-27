@@ -4,68 +4,305 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scuderia Login</title>
-    <!-- Hubungkan ke file style.css yang sama agar warnanya serasi -->
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .helper-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #00f0ff;
+            cursor: pointer;
+            text-decoration: underline;
+            letter-spacing: 0.5px;
+        }
+        .helper-link:hover { color: #0072ff; }
+        .modal-note {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        .hidden { display: none !important; }
+    </style>
+
+    <!-- Firebase SDK (compat version, cocok untuk HTML polos tanpa build tool) -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-    
+
     <div class="login-wrapper">
         <div class="login-container">
             <h2>SCUDERIA LOGIN</h2>
             <p class="login-subtitle">Access X TKJ 1 Main Dashboard</p>
-            
-            <form action="dashboard.html" method="GET">
+
+            <form id="login-form">
                 <div class="input-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter siber ID..." required>
+                    <input type="text" id="username" placeholder="Enter your nickname..." required autocomplete="username">
                 </div>
-                
+
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter passkey..." required>
+                    <input type="password" id="password" placeholder="Enter your password..." required autocomplete="current-password">
                 </div>
-                
-                <button type="submit" class="login-btn">INITIALIZE LOGIN</button>
+
+                <button type="submit" class="login-btn" id="login-submit-btn">INITIALIZE LOGIN</button>
             </form>
+
+            <span class="helper-link" id="open-setup">Belum Punya Akun? Buat Password</span><br>
+            <span class="helper-link" id="open-change-password">Ganti Password</span>
         </div>
     </div>
 
     <div class="footer">
-        <p class="copyright">&copy; 2023 Scuderia X TKJ 1. All rights reserved.</p>
+        <p class="copyright">&copy; 2026 Scuderia X TKJ 1. All rights reserved.</p>
+    </div>
+
+    <!-- MODAL: BUAT PASSWORD BARU (login pertama kali) -->
+    <div id="setup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-close="setup-modal">&times;</span>
+            <h2 id="setup-title">Buat Password</h2>
+            <p class="modal-note">Buat password baru untuk akunmu (minimal 6 karakter).</p>
+            <div class="input-group">
+                <label for="setup-username">Username</label>
+                <input type="text" id="setup-username" placeholder="Nickname kamu">
+            </div>
+            <div class="input-group">
+                <label for="setup-new-pass">Password Baru</label>
+                <input type="password" id="setup-new-pass" placeholder="Minimal 6 karakter">
+            </div>
+            <div class="input-group">
+                <label for="setup-confirm-pass">Ulangi Password</label>
+                <input type="password" id="setup-confirm-pass" placeholder="Ulangi password baru">
+            </div>
+            <button type="button" class="login-btn" id="setup-submit">SIMPAN PASSWORD</button>
+        </div>
+    </div>
+
+    <!-- MODAL: GANTI PASSWORD -->
+    <div id="change-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-close="change-modal">&times;</span>
+            <h2>Ganti Password</h2>
+            <p class="modal-note">Masukkan username dan password lama untuk verifikasi.</p>
+            <div class="input-group">
+                <label for="change-username">Username</label>
+                <input type="text" id="change-username" placeholder="Nickname kamu">
+            </div>
+            <div class="input-group">
+                <label for="change-old-pass">Password Lama</label>
+                <input type="password" id="change-old-pass" placeholder="Password lama">
+            </div>
+            <div class="input-group">
+                <label for="change-new-pass">Password Baru</label>
+                <input type="password" id="change-new-pass" placeholder="Minimal 6 karakter">
+            </div>
+            <button type="button" class="login-btn" id="change-submit">GANTI PASSWORD</button>
+        </div>
+    </div>
+
+    <!-- MODAL: AKSES BERHASIL -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="success-title">AKSES DITERIMA</h2>
+            <p class="modal-note" id="success-message">Selamat datang!</p>
+            <button type="button" class="login-btn" id="success-ok">OK</button>
+        </div>
     </div>
 
     <script>
-        // DATABASE SIMULASI 45 AKUN SISWA X TKJ 1 (Username: Nama Panggilan, Password: NISN)
-        const databaseSiswa = {
-            "adha": "0103980086", "akmal": "3112472787", "alvina": "0102514007", "alya": "0105582144",
-            "angga": "0103445850", "anggun": "0119738112", "aurel": "0102675388", "callysta": "0106392933",
-            "daud": "3114440095", "dinda": "3102317683", "dwi": "0118124864", "fany": "0106887098",
-            "fawwaz": "3118582267", "hafy": "0092270747", "hamdhani": "0108138661", "husna": "0104609645",
-            "ilyas": "0106163303", "jelita": "0103286016", "jordan": "0119935689", "juanita": "3113237417",
-            "khaira": "3105433353", "kirana": "3119322810", "lilis": "0106408667", "luthfiyah": "0117927780",
-            "maghfirah": "0112009508", "zhafran": "0119897304", "fardan": "3103361321", "yahya": "0101708074",
-            "fadly": "0103204157", "faizal": "0092907553", "fakhri": "0101214087", "novelia": "0113191091",
-            "nurdiana": "0113227710", "rachel": "0105757182", "rahmadani": "0108625745", "rayyan": "0107151036",
-            "rena": "0108482444", "rino": "3109472052", "rizqi": "0106915170", "sahrul": "0103571358",
-            "shandy": "0105146587", "sista": "0104159896", "tiara": "0108681511", "yulia": "0114120194",
-            "zahra": "0097829292"
+        // ==================================================================
+        // LANGKAH 1: TEMPEL firebaseConfig KALIAN DI SINI
+        // Ambil dari Firebase Console > Project Settings > General > Your apps
+        // ==================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfb7GXYliA6rUXDQI82Z2FaTpXb9m32XE",
+            authDomain: "scuderia-x-tkj1.firebaseapp.com",
+            projectId: "scuderia-x-tkj1",
+            storageBucket: "scuderia-x-tkj1.firebasestorage.app",
+            messagingSenderId: "273856938705",
+            appId: "1:273856938705:web:6acf852b73b8688b43bbf0"
         };
 
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Menahan agar tidak langsung lompat halaman secara otomatis
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-            const userIn = document.getElementById('username').value.toLowerCase().trim();
-            const passIn = document.getElementById('password').value.trim();
+        // Domain palsu untuk mengubah nickname jadi format email
+        // (Firebase Auth wajib pakai email, tapi domain ini tidak perlu benar-benar ada)
+        const EMAIL_DOMAIN = "scuderia-x-tkj1.local";
 
-            // Jalankan validasi kecocokan username dan password NISN
-            if (databaseSiswa[userIn] && databaseSiswa[userIn] === passIn) {
-                // Berikan kunci lolos autentikasi ke memori penjelajah
-                sessionStorage.setItem("isLoggedIn", "true");
-                
-                alert("ACCESS GRANTED. Selamat datang " + userIn.toUpperCase() + "!");
-                window.location.href = "index.html"; // Berhasil login, arahkan ke dashboard utama
-            } else {
-                alert("ACCESS DENIED! Username atau Password NISN salah.");
+        // DAFTAR USERNAME (NICKNAME) SISWA X TKJ 1 -- tanpa data NISN
+        // Ini dipakai untuk mencegah orang luar sembarangan membuat akun baru.
+        const USERS = [
+            "adha", "akmal", "alvina", "alya", "angga", "anggun", "aurel", "callysta",
+            "daud", "dinda", "dwi", "fany", "fawwaz", "hafy", "hamdhani", "husna",
+            "ilyas", "jelita", "jordan", "juanita", "khaira", "kirana", "lilis",
+            "luthfiyah", "maghfirah", "zhafran", "fardan", "yahya", "fadly", "faizal",
+            "fakhri", "novelia", "nurdiana", "rachel", "rahmadani", "rayyan", "rena",
+            "rino", "rizqi", "sahrul", "shandy", "sista", "tiara", "yulia", "zahra"
+        ];
+
+        function usernameToEmail(username) {
+            return username + "@" + EMAIL_DOMAIN;
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        document.querySelectorAll(".close-btn[data-close]").forEach(btn => {
+            btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
+        });
+
+        [ "setup-modal", "change-modal" ].forEach(id => {
+            document.getElementById(id).addEventListener("click", function (e) {
+                if (e.target === this) closeModal(id);
+            });
+        });
+
+        function showSuccess(username, redirect) {
+            document.getElementById("success-message").textContent =
+                "Selamat datang, " + username.toUpperCase() + "!";
+            openModal("success-modal");
+
+            const okBtn = document.getElementById("success-ok");
+            okBtn.onclick = function () {
+                closeModal("success-modal");
+                if (redirect) {
+                    sessionStorage.setItem("isLoggedIn", "true");
+                    window.location.href = "index.html";
+                }
+            };
+        }
+
+        function friendlyError(error) {
+            switch (error.code) {
+                case "auth/wrong-password":
+                    return "Password salah.";
+                case "auth/user-not-found":
+                    return "Akun belum terdaftar.";
+                case "auth/invalid-email":
+                    return "Username tidak valid.";
+                case "auth/weak-password":
+                    return "Password terlalu pendek (minimal 6 karakter).";
+                case "auth/network-request-failed":
+                    return "Tidak ada koneksi internet. Login butuh koneksi aktif.";
+                case "auth/invalid-credential":
+                    return "Username atau password salah.";
+                default:
+                    return "Terjadi kesalahan: " + error.message;
+            }
+        }
+
+        // ---------------- LOGIN FORM ----------------
+        document.getElementById("login-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.toLowerCase().trim();
+            const password = document.getElementById("password").value;
+            const submitBtn = document.getElementById("login-submit-btn");
+
+            if (!USERS.includes(username)) {
+                alert("Username tidak dikenali. Gunakan nickname yang terdaftar di kelas X TKJ 1.");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "MEMPROSES...";
+
+            try {
+                await auth.signInWithEmailAndPassword(usernameToEmail(username), password);
+                showSuccess(username, true);
+            } catch (error) {
+                // Catatan: Firebase sengaja tidak membedakan "akun belum ada" vs
+                // "password salah" (fitur anti-enumeration), jadi keduanya muncul
+                // sebagai error yang sama di sini.
+                alert(
+                    "ACCESS DENIED! " + friendlyError(error) +
+                    "\n\nKalau ini login pertamamu, klik 'Belum Punya Akun? Buat Password' di bawah tombol login."
+                );
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "INITIALIZE LOGIN";
+            }
+        });
+
+        // ---------------- BUKA MODAL BUAT AKUN ----------------
+        document.getElementById("open-setup").addEventListener("click", function () {
+            // Isi otomatis dari field username utama kalau sudah diisi
+            document.getElementById("setup-username").value =
+                document.getElementById("username").value.toLowerCase().trim();
+            document.getElementById("setup-new-pass").value = "";
+            document.getElementById("setup-confirm-pass").value = "";
+            openModal("setup-modal");
+        });
+
+        // ---------------- SETUP PASSWORD (buat akun baru) ----------------
+        document.getElementById("setup-submit").addEventListener("click", async function () {
+            const username = document.getElementById("setup-username").value.toLowerCase().trim();
+            const newPass = document.getElementById("setup-new-pass").value;
+            const confirmPass = document.getElementById("setup-confirm-pass").value;
+
+            if (!USERS.includes(username)) {
+                alert("Username tidak dikenali. Gunakan nickname yang terdaftar di kelas X TKJ 1.");
+                return;
+            }
+            if (newPass.length < 6) {
+                alert("Password minimal 6 karakter.");
+                return;
+            }
+            if (newPass !== confirmPass) {
+                alert("Password dan konfirmasi tidak sama.");
+                return;
+            }
+
+            try {
+                await auth.createUserWithEmailAndPassword(usernameToEmail(username), newPass);
+                closeModal("setup-modal");
+                showSuccess(username, true);
+            } catch (error) {
+                if (error.code === "auth/email-already-in-use") {
+                    alert("Akun untuk username ini sudah ada. Silakan login biasa, atau pakai 'Ganti Password' kalau lupa.");
+                } else {
+                    alert("Gagal membuat password: " + friendlyError(error));
+                }
+            }
+        });
+
+        // ---------------- GANTI PASSWORD ----------------
+        document.getElementById("open-change-password").addEventListener("click", function () {
+            document.getElementById("change-username").value = "";
+            document.getElementById("change-old-pass").value = "";
+            document.getElementById("change-new-pass").value = "";
+            openModal("change-modal");
+        });
+
+        document.getElementById("change-submit").addEventListener("click", async function () {
+            const username = document.getElementById("change-username").value.toLowerCase().trim();
+            const oldPass = document.getElementById("change-old-pass").value;
+            const newPass = document.getElementById("change-new-pass").value;
+
+            if (!USERS.includes(username)) {
+                alert("Username tidak dikenali.");
+                return;
+            }
+            if (newPass.length < 6) {
+                alert("Password baru minimal 6 karakter.");
+                return;
+            }
+
+            try {
+                // Verifikasi identitas dengan password lama terlebih dahulu
+                const credential = await auth.signInWithEmailAndPassword(usernameToEmail(username), oldPass);
+                await credential.user.updatePassword(newPass);
+                closeModal("change-modal");
+                alert("Password berhasil diganti. Silakan login dengan password baru.");
+            } catch (error) {
+                alert("Gagal ganti password: " + friendlyError(error));
             }
         });
     </script>
